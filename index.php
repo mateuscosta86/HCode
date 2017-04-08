@@ -1,24 +1,10 @@
 <?php
-
 require_once("config.php");
-try {    
-    $conn = new PDO("sqlsrv:Database=dbphp7;server=localhost\SQLEXPRESS;ConnectionPooling=0", "sa", "123321");
-} catch( PDOException $e ) {  
-   die( "Error connecting to SQL Server: " . $e );   
-}  
 
-$stmt = $conn->prepare("INSERT INTO tb_usuarios (deslogin, dessenha) VALUES (:LOGIN, :PASSWORD);");
+$sql = new Sql();
 
-$login = "mateus";
-$password = "321321";
+$usuarios = $sql->select("SELECT * FROM tb_usuarios");
 
-$stmt->bindParam(":LOGIN", $login);
-$stmt->bindParam(":PASSWORD", $password);
-
-$stmt->execute();
-
-$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-var_dump($results);
+echo json_encode($usuarios);
 
 ?>
